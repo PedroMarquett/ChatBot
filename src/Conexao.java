@@ -10,15 +10,11 @@ import java.util.logging.Logger;
 
 public class Conexao extends Observable {
 
-    //private String ip;
 	private String nome;
-    //private int porta;
     private String mensagem;
 
-   // public Conexao(String ip, int porta) {
     public Conexao(String nome) {
         this.nome = nome;
-        //this.porta = porta;
         new Thread(new Recebe()).start();
     }
 
@@ -29,11 +25,7 @@ public class Conexao extends Observable {
     public String getNome() {
         return nome;
     }
-
-    //public int getPorta() {
-        //return porta;
-    //}
-    
+   
 
     public void envia(String texto) {
         new Thread(new Envia(texto)).start();
@@ -49,44 +41,10 @@ public class Conexao extends Observable {
 
         byte[] dadosReceber = new byte[255];
         boolean erro = false;
-        //DatagramSocket socket = null;
 
         @Override
         public void run() {
-            /*//while (true) {
-                //try {
-                    //socket = new DatagramSocket(getPorta());
-                //} catch (SocketException ex) {
-                    //Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
-                //}
-                erro = false;
-                while (!erro) {
-                    DatagramPacket pacoteRecebido = new DatagramPacket(dadosReceber, dadosReceber.length);
-                    try {
-                        //socket.receive(pacoteRecebido);
-						byte[] b = pacoteRecebido.getData();
-                        String s = "";
-                        for (int i = 0; i < b.length; i++) {
-                            if (b[i] != 0) {
-                                s += (char) b[i];
-                            }
-                        }
-                        String nome = pacoteRecebido.getAddress().toString() + " disse:";
-                        notifica(nome + s);
-                        System.out.println(s);
-                    } catch (Exception e) {
-                        System.out.println(e);
-                        erro = false;
-                        try {
-                            Thread.sleep(100);
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        erro = false;
-                        continue;
-                    }
-                }
-            //}*/
+            
         }
     }
 
@@ -102,20 +60,7 @@ public class Conexao extends Observable {
         public void run() {
 
             byte[] dados = texto.getBytes();
-/*
-            try {
-                DatagramSocket clientSocket = new DatagramSocket();
-                InetAddress addr = InetAddress.getByName(getNome());
-                DatagramPacket pacote = new DatagramPacket(dados, dados.length, addr, getPorta());
-                clientSocket.send(pacote);
-                clientSocket.close();
-            } catch (SocketException ex) {
-                Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (UnknownHostException ex) {
-                Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
-            }*/
+
         }
     }
 }

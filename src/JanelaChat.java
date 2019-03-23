@@ -1,4 +1,6 @@
 import java.awt.event.KeyEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -15,17 +17,16 @@ public class JanelaChat extends javax.swing.JFrame implements Observer {
         mensagemjTextArea.requestFocusInWindow();
     }
 
-    private void envia() {
+    private void envia() throws SQLException {
         if (!mensagemjTextArea.getText().isEmpty()) {
             conexao.envia(mensagemjTextArea.getText());
-            escreve("Você disse: "+mensagemjTextArea.getText());
+            escreve("Você disse: "+mensagemjTextArea.getText());    
+            String tex = mensagemjTextArea.getText();
+	       	 Message mensagem = new Message(tex,"");
+	       	 MessageDB conexao = new MessageDB();
+	       	 Message teste = conexao.select(mensagem);
+	       	 escreve("Bot disse:"+teste.getResposta());
             mensagemjTextArea.setText("");
-            String texto = mensagemjTextArea.getText();
-            if(texto == " ") {
-            	 escreve("Você disse: AAA ");
-            }else {
-            	escreve("Você disse: BBB ");
-            }
            
         }
     }
@@ -39,7 +40,7 @@ public class JanelaChat extends javax.swing.JFrame implements Observer {
     }
     
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+                       
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -59,7 +60,12 @@ public class JanelaChat extends javax.swing.JFrame implements Observer {
         mensagemjTextArea.setRows(5);
         mensagemjTextArea.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                mensagemjTextAreaKeyReleased(evt);
+                try {
+					mensagemjTextAreaKeyReleased(evt);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         jScrollPane2.setViewportView(mensagemjTextArea);
@@ -67,7 +73,12 @@ public class JanelaChat extends javax.swing.JFrame implements Observer {
         enviarjButton.setText("Enviar");
         enviarjButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                enviarjButtonActionPerformed(evt);
+                try {
+					enviarjButtonActionPerformed(evt);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
 
@@ -95,11 +106,11 @@ public class JanelaChat extends javax.swing.JFrame implements Observer {
         pack();
     }// </editor-fold>                        
 
-    private void enviarjButtonActionPerformed(java.awt.event.ActionEvent evt) {                                              
+    private void enviarjButtonActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {                                              
         envia();
     }                                             
 
-    private void mensagemjTextAreaKeyReleased(java.awt.event.KeyEvent evt) {                                              
+    private void mensagemjTextAreaKeyReleased(java.awt.event.KeyEvent evt) throws SQLException {                                              
          if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             envia();
         }
